@@ -1,0 +1,62 @@
+{% extends 'demo.html' %}
+{% load static %}
+      <!-- Our  Glasses section -->
+      {% block banner %}
+      {% load cartqauntity %}
+      <div class="about">
+         <div class="container">
+            <div class="row d_flex">
+               <div class="col-md-5">
+                  <div class="about_img">
+                     <figure><img src="{% static 'images/about_img.png' %}" alt="#"/></figure>
+                  </div>
+               </div>
+               <div class="col-md-7">
+                  <div class="titlepage">
+                     <h2>PRODUCT</h2>
+                     <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum.</p>
+                  </div>
+                  <a class="read_more" href="#">Read More</a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="glasses">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-10 offset-md-1">
+                  <div class="titlepage">
+                     <h2>Glasses</h2>
+                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labor
+                        e et dolore magna aliqua.
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row mx-auto">
+            <center><h2>hello</h2></center>
+        {% for pr in cart %}
+
+      <div class="card mx-auto" style="width: 18rem;">
+         <img src="{{pr.images.url}}"  class="card-img-top" alt="...">
+         <div class="card-body">
+
+           <h5 class="card-title">Name:{{pr.name}}</h5>
+           <h5 class="card-title">Price:{{pr.price}}</h5>
+
+           <div class="card-footer">
+            <input type="submit" value="-" class="float-right btn btn-danger "/>
+
+            <center><h5 class="card-title">{{pr|cart_quantity:request.session.cart}}</h5></center>
+            <input type="submit" value="+" class="float-left btn btn-danger "/>
+         </div>
+         </div>
+
+         </div>
+         <a href="{% url 'Buynow' pr.id %}" type="submit" class=" float-right send_btn btn-sm">BuyNow</a>
+         </div>
+      </div>
+      {% endfor %}
+      {% endblock %}
+      <!-- end Our  Glasses section -->

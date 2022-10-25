@@ -1,0 +1,139 @@
+{% extends 'demo.html' %}
+{% load static %}
+
+      <!-- Our  Glasses section -->
+      {% block banner %}
+      {% load cartqauntity %}
+      <div class="about">
+         <div class="container">
+            <div class="row d_flex">
+               <div class="col-md-5">
+                  <div class="about_img">
+                     <figure><img src="{% static 'images/about_img.png' %}" alt="#"/></figure>
+                  </div>
+               </div>
+               <div class="col-md-7">
+                  <div class="titlepage">
+                     <h2>PRODUCT</h2>
+                     <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum.</p>
+                  </div>
+                  <a class="read_more" href="#">Read More</a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="glasses">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-10 offset-md-1">
+                  <div class="titlepage">
+                     <h2>Glasses</h2>
+                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labor
+                        e et dolore magna aliqua. 
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row mx-auto">
+            {% for pr in products %}
+            <div class="card mx-auto" style="width: 18rem;">
+               <img src="{{pr.images.url}}"  class="card-img-top" alt="...">
+               <div class="card-body">
+                 <h5 class="card-title">Product Name: {{pr.name}}</h5>
+                 <h5 class="card-title">Price: {{pr.price}}</h5>
+                 <!-- <a href="{% url 'addca' pr.id %}" ><input class="send_btn" type="button" value="Add To Cart"></a> -->
+               {% if pr|is_in_cart:request.session.cart %}
+               <!-- {{pr | is_in_cart:request.session.cart }} -->
+               <div class="card-footer">
+                  <form action="{% url 'product' %}" method="POST">
+                     {% csrf_token %}
+                     <input type="text" hidden name="remove" value="True">
+                     <input type="submit" value="- remove" class="float-left btn btn-danger "/>
+                  </form>
+                  <div class="text-center col">{{pr|cart_quantity:request.session.cart}}</div>
+                  <form action="{% url 'addca' pr.id %}" method="POST">
+                     {% csrf_token %}
+                     <input type="text" hidden name="progress" value="{{pr.id}}">
+                     <input type="submit" value="+" class="float-left btn btn-danger "/>
+                  </form>
+
+               </div>
+               {% else %}
+               <form action="{% url 'addca' pr.id %}" method="POST">
+                  {% csrf_token %}
+                   <input type="text" hidden name="progress" value="{{pr.id}}">
+                   <input type="submit" class=" float-right send_btn btn-sm" value="Add To Cart">
+               </form>
+
+               {% endif %}
+               </div>
+                <form action="{% url 'delete_pro' pr.id %}" method="POST">
+                     {% csrf_token %}
+                     <input type="text" hidden name="progress" value="{{pr.id}}">
+                     <input type="submit" value="Delete" class="float-left btn btn-success "/>
+                  </form>
+<!--                <form action="{% url 'delete_pro' pr.id %}" method="POST">-->
+<!--                     {% csrf_token %}-->
+<!--                     <input type="text" hidden name="progress" value="{{pr.id}}">-->
+<!--                     <input type="submit" value="Update" class="float-right btn btn-warning "/>-->
+<!--                  </form>-->
+
+             </div>
+
+               <!-- <div class="container-fluid">
+                     <div class="col-xl-3 col-lg-2 col-md-6 col-sm-6">
+                        <div class="glasses_box">
+                           <figure><img src="{{pr.images.url}}" /></figure><br>
+                           <span class="blu">{{pr.name}}</span><br>
+                              Price({{pr.price}})<br>
+                           <p >Quantity{{pr.quantity}}</p><br>
+                           <p >id: {{pr.id}}</p><br>
+                           <a href="{% url 'addca' pr.id %}" ><input class="send_btn" type="button" value="Add To Cart"></a>
+                        </div>
+                     </div>
+                  </div>                 -->
+            {% endfor %}
+
+
+                  <div class="glasses_box">
+                     <h2>ADD PRODUCT</h2>
+                     <form action="{% url 'img' %}" method="POST">
+                         {% csrf_token %}
+                         <label for="fname">Name:</label>
+                                <input type="text" id="fname" name="fname"><br><br>
+                         <label for="price">Price:</label>
+                                <input type="text" id="price" name="price"><br><br>
+                      <label for="img">Select image:</label>
+                      <input type="file" id="img" name="img" accept="image/*"><br><br>
+                      <input type="submit">
+                    </form>
+                  </div>
+<!--             <h1>uplooooooo</h1>-->
+
+             <div class="glasses_box">
+                     <h2>UPDATE PRODUCT</h2>
+                     <form action="{% url 'updateproduct' %}" method="POST">
+                         {% csrf_token %}
+                         <label for="pname">Product Name:</label>
+                                <input type="text" id="pname" name="pname"><br><br>
+                         <label for="uname">Update Name:</label>
+                                <input type="text" id="uname" name="uname"><br><br>
+                         <label for="uprice">Update Price:</label>
+                                <input type="text" id="uprice" name="uprice"><br><br>
+                      <label for="uimg">Select image:</label>
+                      <input type="file" id="uimg" name="uimg" accept="image/*"><br><br>
+                      <input type="submit" value="Update">
+                    </form>
+                  </div>
+
+         </div>
+               <div class="col-md-12">
+                  <a class="read_more" href="{% url 'product' %}">Read More</a>
+               </div>
+            </div>
+         </div>
+      </div>
+      {% endblock %}
+      <!-- end Our  Glasses section -->
+     

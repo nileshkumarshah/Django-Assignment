@@ -1,0 +1,37 @@
+{% extends 'demo.html' %}
+{% load static %}
+      <!-- about section -->
+      {% block banner %}
+      <div class="about">
+         <div class="container">
+            <div class="row d_flex">
+               <div class="col-md-5">
+                  <div class="about_img">
+                     <figure><img src="{% static 'images/about_img.png' %}" alt="#"/></figure>
+                  </div>
+               </div>
+               <div class="col-md-7">
+                  <div class="titlepage">
+                     <h2>Register Our Shop</h2>
+                     <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                  </div>
+                  <a class="read_more" href="#">Read More</a>
+                  <div class="titlepage">
+                     <form action="{% url 'reg' %}" method="POST" novalidate>
+                        {% csrf_token %}
+                        {{sho.as_p}}
+                        <input type="Submit" value="Register" class="read_more"> <br><br>
+                        {% if messages %}
+                        {% for message in messages %}
+                            <span {% if message.tags %} class="{{message.tags}}"{% endif %}>{{message}}</span>
+                        {% endfor %}
+                        {% endif %}
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      {% endblock %}
+      <!-- about section -->
+   
