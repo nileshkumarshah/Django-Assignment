@@ -4,7 +4,7 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 
 # Create your models here.
-
+"""choice the gender using SingUp page in male or femail using the shopping models class"""
 GENDER_CHOICES = (
     (0, 'male'),
     (1, 'female')
@@ -12,6 +12,7 @@ GENDER_CHOICES = (
 
 # Registration form using shoping class
 class shoping(models.Model):
+    """SingUp model class using the fields"""
     name = models.CharField(max_length=90)
     email = models.EmailField(max_length=100)
     address = models.CharField(max_length=120) 
@@ -21,6 +22,7 @@ class shoping(models.Model):
 
 #Contacts user message
 class Contacts(models.Model):
+    """Contacts as models class using user any send messages"""
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=20)
     email = models.EmailField(max_length=50)
@@ -28,6 +30,7 @@ class Contacts(models.Model):
 
 # Categary of original and local product
 class Categary(models.Model):
+    """the categary class models using in product brand types at shopping"""
     name = models.CharField(max_length=30)
     @staticmethod
     def get_all_categaries():
@@ -35,6 +38,8 @@ class Categary(models.Model):
 
 # glasses product
 class product(models.Model):
+    """the product models class add to the ForeignKey (categary class models admin side set the product brands)
+    and product name, price and images uploaded"""
     name = models.CharField(max_length=100)
     categary = models.ForeignKey(Categary, on_delete=models.CASCADE, default=1)
     price = models.IntegerField(null=True)
@@ -42,14 +47,17 @@ class product(models.Model):
 
     @staticmethod
     def get_all_products():
+        """the model based get all product data and call the only functions name"""
         return product.objects.all()
 
     @staticmethod
     def filter_id_products():
+        """the model based filter data to check match the id in product data and call the only functions name"""
         return product.objects.filter(id=id)
 
     @staticmethod
     def get_all_products_categary_id(categary_id):
+        """the model based filter data to check match the categary_id in product data and call the only functions name"""
         if categary_id:
             return product.objects.filter(categary=categary_id)
         else:
@@ -57,6 +65,7 @@ class product(models.Model):
 
 # Add to cart
 class Cart(models.Model):
+    """Add to cart in Cart models class using"""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total_price = models.FloatField(null=True)
     ordered = models.BooleanField(null=True)
@@ -79,6 +88,7 @@ class CartItems(models.Model):
 
 @receiver(post_save, sender=CartItems)
 def my_callback(sender, **kwargs):
+    """signals using check cart quantity add price and add total price"""
     cart_items = kwargs['instance']
     price_of_product = product.objects.get(id=cart_items.product.id)
     cart_items.price = cart_items.quantity * float(price_of_product.price)

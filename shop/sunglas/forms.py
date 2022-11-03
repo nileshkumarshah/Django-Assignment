@@ -4,7 +4,9 @@ from .models import shoping, product, Contacts
 # forms using required field and validation forms.
 # Registration form validations.
 
+
 class market(forms.ModelForm):
+    """forms the data in required field and validation forms"""
     class Meta:
         model = shoping
         fields = ['name', 'email', 'address', 'phone', 'password', 'gender']

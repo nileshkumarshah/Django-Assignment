@@ -6,19 +6,24 @@ from django.views import View
 
 # Create your views here.
 def about(request):
+    """the about functions render to about.html page"""
     return render(request, 'about.html')
     
 def glas(request):
+    """the glas functions render to glasses.html page"""
     return render(request, 'glasses.html')
 
 def index(request):
+    """the index functions render to index.html home page"""
     return render(request, 'index.html')
     
 def demo(request):
+    """the demo functions render to demo.html page"""
     return render(request, 'demo.html')
 
 # New user contact to admin
 def contact(request):
+    """the contact method work on request dat get in the input data to the save Contacts tables."""
     if request.method == 'POST':
         shop = conts(request.POST)
         if shop.is_valid():
@@ -39,6 +44,7 @@ def shop(request):
 
 # User SingUp form POST data
 def regis(request):
+    """SingUp page using regis functions in request.POST the forms check the validation data and shopping tables(Create a new Users)"""
     if request.method == 'POST':
         shop = market(request.POST)
         if shop.is_valid():
@@ -57,6 +63,7 @@ def regis(request):
 
 # User login form match database user login
 def login(request):
+    """The Login user in the check shoping tables match email and password"""
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -70,7 +77,8 @@ def login(request):
         return render(request, 'login.html')
 
 # User logout
-def logout(request):    
+def logout(request):
+    """the Logout functions using store the sessions users to delete"""
     try:
         del request.session['user']    
     except TypeError:
@@ -80,6 +88,7 @@ def logout(request):
 
 # Get all products and show product
 def produ(request):
+    """produ function to work Get all the product data in show product pages"""
     prds = product.get_all_products()
     return render(request, 'product.html', {'products': prds})
 
@@ -128,6 +137,7 @@ class addtocart(View):
 
 # Upload product (ADD PRODUCT) form in name, price and images (urls)
 def Upload_Images(request):
+    """Create a new product for using the Upload_Images functions we work in product name, price and images to save in product tables """
     if request.method == 'POST':
         names = request.POST.get('fname')
         price = request.POST.get('price')
@@ -144,6 +154,7 @@ def Upload_Images(request):
 
 # Delete product with product id delete method
 def Delete_Product(request, id):
+    """The show all product to get id and filter in product data match data delete"""
     productId = product.objects.filter(id=id).delete()
     if productId:
         return render(request, 'cart.html')
@@ -152,6 +163,7 @@ def Delete_Product(request, id):
 # Update product using product name match and update data
 
 def Update_Product(request):
+    """The Update product data to have needs for old product name bases upload data in databases to new upload the product name, price and images."""
     if request.method == 'POST':
         product_name = request.POST.get('pname')
         names = request.POST.get('uname')
